@@ -27,8 +27,9 @@ $('#button-break-down').on('click', () => {
   let words = message.split(" ")
   let wordFrequency = {}
   words.forEach(word => {
-    let wordFilter = words.filter(wordInArray => wordInArray == word)
-    wordFrequency[word] = wordFilter.length
+    let wordCase = word.toUpperCase()
+    let wordFilter = words.filter(wordInArray => wordInArray.toUpperCase() == wordCase)
+    wordFrequency[wordCase] = wordFilter.length
     postWord(word)
   })
   for (let displayWord in wordFrequency) {
@@ -47,8 +48,9 @@ $('#message').on('keypress', (event) => {
     let words = message.split(" ")
     let wordFrequency = {}
     words.forEach(word => {
-      let wordFilter = words.filter(wordInArray => wordInArray == word)
-      wordFrequency[word] = wordFilter.length
+      let wordCase = word.toUpperCase()
+      let wordFilter = words.filter(wordInArray => wordInArray.toUpperCase() == wordCase)
+      wordFrequency[wordCase] = wordFilter.length
       postWord(word)
     })
     for (let displayWord in wordFrequency) {
