@@ -21,7 +21,7 @@ const displayWord = (wordInfo) => {
   )
 }
 
-$('#button-break-down').on('click', () => {
+const evaluateWords = () => {
   $('.added-words').remove()
   let message = $('#message').val()
   let words = message.split(" ")
@@ -38,27 +38,14 @@ $('#button-break-down').on('click', () => {
     )
   }
   $('#message').val('')
-})
+}
+
+$('#button-break-down').on('click', evaluateWords)
 
 $('#message').on('keypress', (event) => {
   if(13 == event.keyCode) {
     event.preventDefault()
-    $('.added-words').remove()
-    let message = $('#message').val()
-    let words = message.split(" ")
-    let wordFrequency = {}
-    words.forEach(word => {
-      let wordCase = word.toUpperCase()
-      let wordFilter = words.filter(wordInArray => wordInArray.toUpperCase() == wordCase)
-      wordFrequency[wordCase] = wordFilter.length
-      postWord(word)
-    })
-    for (let displayWord in wordFrequency) {
-    $('.word-count').append(
-        `<div class="added-words" style="font-size:${wordFrequency[displayWord]}em">${displayWord}</div>`
-      )
-    }
-    $('#message').val("")
+    evaluateWords()
   }
 })
 
