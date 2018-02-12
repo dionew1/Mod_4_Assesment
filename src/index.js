@@ -21,7 +21,8 @@ const displayWord = (wordInfo) => {
   )
 }
 
-$('#button-break-down').on('click', function() {
+$('#button-break-down').on('click', () => {
+  $('.added-words').remove()
   let message = $('#message').val()
   let words = message.split(" ")
   let wordFrequency = {}
@@ -32,8 +33,30 @@ $('#button-break-down').on('click', function() {
   })
   for (let displayWord in wordFrequency) {
   $('.word-count').append(
-      `<div style="font-size:${wordFrequency[displayWord]}em">${displayWord}</div>`
+      `<div class="added-words" style="font-size:${wordFrequency[displayWord]}em">${displayWord}</div>`
     )
+  }
+  $('#message').val('')
+})
+
+$('#message').on('keypress', (event) => {
+  if(13 == event.keyCode) {
+    event.preventDefault()
+    $('.added-words').remove()
+    let message = $('#message').val()
+    let words = message.split(" ")
+    let wordFrequency = {}
+    words.forEach(word => {
+      let wordFilter = words.filter(wordInArray => wordInArray == word)
+      wordFrequency[word] = wordFilter.length
+      postWord(word)
+    })
+    for (let displayWord in wordFrequency) {
+    $('.word-count').append(
+        `<div class="added-words" style="font-size:${wordFrequency[displayWord]}em">${displayWord}</div>`
+      )
+    }
+    $('#message').val("")
   }
 })
 
@@ -43,6 +66,6 @@ const postWord = (wordToPost) => {
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({ word: { value: `${wordToPost}` } })
   })
-  .then((response) => console.log(response.json()))
+  .then((response) => response.json())
   .catch(error => console.error('error:', error))
 }
